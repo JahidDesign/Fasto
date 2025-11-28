@@ -26,6 +26,9 @@ function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const errorsTemplate = {
     firstName: "",
     lastName: "",
@@ -193,7 +196,6 @@ function Register(props) {
       return;
     }
 
-    // ✅ Payload exactly as your spec (no photo field)
     const payload = {
       user_info: {
         first_name: firstName,
@@ -521,19 +523,36 @@ function Register(props) {
                     </div>
                   </div>
 
-                  {/* Password */}
+                  {/* Password + eye icon */}
                   <div className="form-group mb-2">
                     <label className="mb-1" style={labelStyle}>
                       Password
                     </label>
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      style={inputStyle}
-                      value={password}
-                      onChange={handlePasswordChange}
-                      placeholder="••••••••"
-                    />
+                    <div className="input-group">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-control form-control-lg"
+                        style={inputStyle}
+                        value={password}
+                        onChange={handlePasswordChange}
+                        placeholder="••••••••"
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-outline-light"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        style={{
+                          borderRadius: "999px",
+                          marginLeft: "0.5rem",
+                        }}
+                      >
+                        <i
+                          className={
+                            showPassword ? "fa fa-eye-slash" : "fa fa-eye"
+                          }
+                        />
+                      </button>
+                    </div>
                     {errors.password && (
                       <div className="text-danger small mt-1">
                         {errors.password}

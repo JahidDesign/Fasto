@@ -52,6 +52,9 @@ export function login(username, password) {
 
 /**
  * Handle both register & login error formats.
+ *
+ * Tries to produce a human-readable string even when `errors`
+ * is an array of objects or a field->messages map.
  */
 export function formatError(errorResponse) {
   if (!errorResponse) {
@@ -59,22 +62,54 @@ export function formatError(errorResponse) {
     return "Something went wrong. Please try again.";
   }
 
+  console.log("API error response:", errorResponse); // helpful while debugging
+
   const { message, errors } = errorResponse;
 
-  // Array of validation errors
+  let prettyErrors = "";
+
+  // --- 1) errors is an array (e.g. [{ field, message }, ...] or ["msg1", "msg2"] ) ---
   if (Array.isArray(errors) && errors.length > 0) {
-    const joined = errors.join(", ");
-    swal("Validation error", joined, "error");
-    return joined;
+    prettyErrors = errors
+      .map((err) => {
+        if (typeof err === "string") return err;
+
+        // common patterns: { message }, { msg }, { field, message }, etc.
+        if (err.message) return err.message;
+        if (err.msg) return err.msg;
+        if (err.field && err.error) return `${err.field}: ${err.error}`;
+        if (err.field && err.message) return `${err.field}: ${err.message}`;
+
+        // fallback
+        return JSON.stringify(err);
+      })
+      .join("\n");
   }
 
+  // --- 2) errors is an object (e.g. { email: ["Email taken"], username: ["Too short"] } ) ---
+  if (!prettyErrors && errors && typeof errors === "object") {
+    prettyErrors = Object.entries(errors)
+      .map(([field, value]) => {
+        if (Array.isArray(value)) return `${field}: ${value.join(", ")}`;
+        if (typeof value === "string") return `${field}: ${value}`;
+        return `${field}: ${JSON.stringify(value)}`;
+      })
+      .join("\n");
+  }
+
+  if (prettyErrors) {
+    swal("Validation error", prettyErrors, "error");
+    return prettyErrors;
+  }
+
+  // --- 3) fall back to message-based logic (login / simple errors) ---
   if (message === "Invalid credentials") {
     swal("Oops", "Invalid username or password", "error");
     return message;
   }
 
   if (message === "Validation error") {
-    swal("Oops", "Validation error", "error");
+    swal("Validation error", "Please check the form and try again.", "error");
     return message;
   }
 
@@ -83,7 +118,7 @@ export function formatError(errorResponse) {
     return message;
   }
 
-  // Also covers register messages like:
+  // Register-specific messages like:
   // "Username already exists", "Email already registered",
   // "Server error during registration", etc.
   swal("Oops", message || "Something went wrong", "error");

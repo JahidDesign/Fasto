@@ -18,6 +18,9 @@ function Login(props) {
   const [password, setPassword] = useState("123456");
   const [errors, setErrors] = useState({ username: "", password: "" });
 
+  
+  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -40,10 +43,10 @@ function Login(props) {
     if (error) return;
 
     dispatch(loadingToggleAction(true));
-    dispatch(loginAction(username, password, nav)); // if your action still needs nav
+    dispatch(loginAction(username, password, nav));
   }
 
-  // ✅ Show SweetAlert + navigate when login success
+  
   useEffect(() => {
     if (props.successMessage) {
       Swal.fire({
@@ -53,7 +56,6 @@ function Login(props) {
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
-        // dashboard e nebe
         nav("/dashboard");
       });
     }
@@ -125,8 +127,6 @@ function Login(props) {
                       <div className="text-danger">{props.errorMessage}</div>
                     )}
 
-                    {/* successMessage will now trigger SweetAlert instead */}
-
                     <form onSubmit={onLogin}>
                       <div className="form-group">
                         <label className="mb-2">
@@ -149,12 +149,26 @@ function Login(props) {
                         <label className="mb-2">
                           <strong>Password</strong>
                         </label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
+                        {/* password + eye icon, same idea as register */}
+                        <div className="input-group">
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            className="form-control"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
+                          <button
+                            type="button"
+                            className="btn btn-outline-light"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
+                            <i
+                              className={
+                                showPassword ? "fa fa-eye-slash" : "fa fa-eye"
+                              }
+                            />
+                          </button>
+                        </div>
                         {errors.password && (
                           <div className="text-danger fs-12">
                             {errors.password}
