@@ -7,18 +7,18 @@ import {
 } from "../../store/actions/AuthActions";
 import Swal from "sweetalert2";
 
-// image
+// images
 import logo2 from "../../assets/images/logo-full-white.png";
 import login from "../../assets/images/login-bg.jpg";
 
 function Login(props) {
-  let year = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   const [username, setUsername] = useState("demoUser");
   const [password, setPassword] = useState("123456");
   const [errors, setErrors] = useState({ username: "", password: "" });
 
-  
+  // 👁️ show / hide password
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ function Login(props) {
 
   function onLogin(e) {
     e.preventDefault();
+
     let error = false;
     const errorObj = { username: "", password: "" };
 
@@ -33,6 +34,7 @@ function Login(props) {
       errorObj.username = "Username is required";
       error = true;
     }
+
     if (!password.trim()) {
       errorObj.password = "Password is required";
       error = true;
@@ -46,7 +48,7 @@ function Login(props) {
     dispatch(loginAction(username, password, nav));
   }
 
-  
+  // success SweetAlert + redirect
   useEffect(() => {
     if (props.successMessage) {
       Swal.fire({
@@ -63,6 +65,7 @@ function Login(props) {
 
   return (
     <div className="login-wrapper">
+      {/* LEFT SIDE */}
       <div
         className="login-aside-left"
         style={{ backgroundImage: "url(" + login + ")" }}
@@ -109,6 +112,7 @@ function Login(props) {
         </div>
       </div>
 
+      {/* RIGHT SIDE */}
       <div className="login-aside-right">
         <div className="row m-0 justify-content-center h-100 align-items-center">
           <div className="col-xl-6 col-xxl-8">
@@ -123,11 +127,15 @@ function Login(props) {
                       Sign in by entering information below
                     </h4>
 
+                    {/* API error */}
                     {props.errorMessage && (
-                      <div className="text-danger">{props.errorMessage}</div>
+                      <div className="text-danger mb-2">
+                        {props.errorMessage}
+                      </div>
                     )}
 
                     <form onSubmit={onLogin}>
+                      {/* Username */}
                       <div className="form-group">
                         <label className="mb-2">
                           <strong>Username</strong>
@@ -145,11 +153,11 @@ function Login(props) {
                         )}
                       </div>
 
+                      {/* Password + eye toggle */}
                       <div className="form-group">
                         <label className="mb-2">
                           <strong>Password</strong>
                         </label>
-                        {/* password + eye icon, same idea as register */}
                         <div className="input-group">
                           <input
                             type={showPassword ? "text" : "password"}

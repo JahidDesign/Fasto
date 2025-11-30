@@ -10,8 +10,16 @@ export const MenuList = [
                 to: 'dashboard',					
             },
             {
+                title: 'Dashboard',
+                to: 'dashboards',					
+            },
+            {
                 title: 'Dashboard Dark',
                 to: 'dashboard-dark',
+            },
+            {
+                title: 'Project',
+                to: 'project',
             },
             {
                 title: 'Project',
@@ -25,6 +33,10 @@ export const MenuList = [
                 title: 'Task List',
                 to: 'task-list',
                 
+            },
+			{
+                title: 'SmartConsart',
+                to: 'app-smartcont',                
             },
 			{
                 title: 'Calendar',
@@ -78,6 +90,10 @@ export const MenuList = [
             {
                 title:'Calendar',
                 to: 'app-calender'
+            },
+            {
+                title:'Pricing',
+                to: 'pricing'
             },
             {
                 title: 'Shop',
@@ -259,10 +275,28 @@ export const MenuList = [
     },
     //Widget
     {   
+        title:'Subcription',
+        //classsChange: 'mm-collapse',
+        iconStyle: <i className="flaticon-admin"></i>,
+        to: 'subcription-manage',
+    },
+    {   
+        title:'Freamwork',
+        //classsChange: 'mm-collapse',
+        iconStyle: <i className="flaticon-admin"></i>,
+        to: 'useframwork-manage',
+    },
+    {   
         title:'Widget',
         //classsChange: 'mm-collapse',
         iconStyle: <i className="flaticon-admin"></i>,
         to: 'widget-basic',
+    },
+    {   
+        title:'Widget',
+        //classsChange: 'mm-collapse',
+        iconStyle: <i className="flaticon-admin"></i>,
+        to: 'govt-manage',
     },
     //Forms
     {
@@ -273,6 +307,10 @@ export const MenuList = [
             {
                 title:'Form Elements',
                 to: 'form-element',
+            },
+            {
+                title:'Form Validation',
+                to: 'caro-validation',
             },
             {
                 title:'Wizard',
