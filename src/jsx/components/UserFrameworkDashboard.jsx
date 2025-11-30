@@ -582,3 +582,6 @@ export function UserFrameworkDashboard({ accessToken, projectId }) {
     </div>
   );
 }
+
+// default export so `import UserFrameworkDashboard from ...` works
+export default UserFrameworkDashboard;

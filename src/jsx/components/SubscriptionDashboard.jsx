@@ -322,6 +322,9 @@ export function SubscriptionsDashboard({ accessToken }) {
   );
 }
 
+// Default export so `import SubscriptionDashboard from ...` works
+export default SubscriptionsDashboard;
+
 // ---------------------------------------------------
 // Stripe Webhook Handler Helper (Express backend)
 // (Backend-only: don’t call this from the browser)

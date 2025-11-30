@@ -112,9 +112,17 @@ function Login(props) {
         </div>
       </div>
 
-      {/* RIGHT SIDE */}
-      <div className="login-aside-right">
-        <div className="row m-0 justify-content-center h-100 align-items-center">
+      {/* RIGHT SIDE — now with same dark gradient style as Register */}
+      <div
+        className="login-aside-right"
+        style={{
+          background:
+            "radial-gradient(circle at top, #301047 0, #090313 55%, #05010a 100%)",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <div className="row m-0 justify-content-center h-100 align-items-center w-100">
           <div className="col-xl-6 col-xxl-8">
             <div className="authincation-content">
               <div className="row no-gutters">

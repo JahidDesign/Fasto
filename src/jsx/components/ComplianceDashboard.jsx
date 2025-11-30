@@ -1,7 +1,7 @@
 // ComplianceDashboard.jsx
 // One-file DashboardClient + React UI for Carlo Rules Engine dashboard
 //
-// Props for main component:
+// Usage:
 //   <ComplianceDashboard
 //      accessToken="JWT_FOR_USER_STATS"
 //      projectId="PROJECT_ID"
@@ -11,7 +11,7 @@
 import React, { useEffect, useState } from "react";
 
 // -------------------------------------
-// DashboardClient (your dashboardApi.js)
+// DashboardClient (dashboard API client)
 // -------------------------------------
 
 export class DashboardClient {
@@ -544,7 +544,7 @@ function ComplianceEntryCard({ entry }) {
 // Main React Dashboard Component
 // -------------------------------------
 
-export function ComplianceDashboard({ accessToken, projectId, apiKey }) {
+export default function ComplianceDashboard({ accessToken, projectId, apiKey }) {
   const [client] = useState(
     () => new DashboardClient({ accessToken, defaultApiKey: apiKey })
   );
@@ -631,7 +631,8 @@ export function ComplianceDashboard({ accessToken, projectId, apiKey }) {
                 const ok =
                   res.valid === true ||
                   res.data?.valid === true ||
-                  res.chain_valid === true;
+                  res.chain_valid === true ||
+                  res.chain_verified === true;
                 setChainValid(ok);
               })
               .catch((err) => {
@@ -704,8 +705,7 @@ export function ComplianceDashboard({ accessToken, projectId, apiKey }) {
     chainValid == null
       ? {
           label: "Chain verification unavailable",
-          className:
-            "bg-slate-100 text-slate-700 border border-slate-200",
+          className: "bg-slate-100 text-slate-700 border border-slate-200",
         }
       : chainValid
       ? {
@@ -715,8 +715,7 @@ export function ComplianceDashboard({ accessToken, projectId, apiKey }) {
         }
       : {
           label: "Hash chain INVALID",
-          className:
-            "bg-rose-100 text-rose-800 border border-rose-200",
+          className: "bg-rose-100 text-rose-800 border border-rose-200",
         };
 
   return (
@@ -728,8 +727,7 @@ export function ComplianceDashboard({ accessToken, projectId, apiKey }) {
             AI Compliance Dashboard
           </h1>
           <p className="text-sm text-slate-500">
-            Monitor Carlo Rules Engine compliance checks for your AI
-            project.
+            Monitor Carlo Rules Engine compliance checks for your AI project.
           </p>
         </div>
         {projectId && (
@@ -840,9 +838,7 @@ export function ComplianceDashboard({ accessToken, projectId, apiKey }) {
                   {loadingMore ? "Loading more…" : "Load more entries"}
                 </button>
               ) : (
-                <p className="text-[11px] text-slate-500">
-                  All entries loaded.
-                </p>
+                <p className="text-[11px] text-slate-500">All entries loaded.</p>
               )}
             </div>
           </>
